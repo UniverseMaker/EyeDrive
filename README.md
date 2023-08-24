@@ -3,7 +3,7 @@ Webdav Software based on rclone project. This software provide webdav server mou
 시놀로지 또는 Webdav 로컬 드라이브 연결
 오픈소스, 프리웨어, 공개소프트웨어, 무료
 
-This software tested with synology webdav environments.  
+This software tested with synology webdav environments.<br/>
 다운로드는 우측 릴리즈 확인하세요  
 binary file is check the release board.  
 
