@@ -7,7 +7,7 @@ Webdav Software based on rclone project. This software provide webdav server mou
 1. WinFSP Install Required.
 WinFSP 미리 설치 부탁드립니다. 릴리즈에 올라와 있습니다.
 <br/>
-# Introduction
+# Introductions
 This software tested with synology webdav environments.<br/>
 다운로드는 우측 릴리즈 확인하세요<br/>
 binary file is check the release board.<br/>
