@@ -3,12 +3,12 @@ Webdav Software based on rclone project. This software provide webdav server mou
 시놀로지 또는 Webdav 로컬 드라이브 연결<br/>
 오픈소스, 프리웨어, 공개소프트웨어, 무료<br/>
 <br/>
-# Requirements
+# Requirements & Introduction
 1. WinFSP Install Required.
 WinFSP 미리 설치 부탁드립니다. 릴리즈에 올라와 있습니다.
+2. (Bug) Do not transfer large size file. bug fixing now...
+대용량 파일 전송하지 마세요 버그 픽스중입니다.
 <br/>
-# Introduction
-
 This software tested with synology webdav environments.<br/>
 다운로드는 우측 릴리즈 확인하세요<br/>
 binary file is check the release board.<br/>
