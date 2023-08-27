@@ -8,6 +8,8 @@ Webdav Software based on rclone project. This software provide webdav server mou
 WinFSP 미리 설치 부탁드립니다. 릴리즈에 올라와 있습니다.
 2. (Bug) Do not transfer large size file. bug fixing now...
 대용량 파일 전송하지 마세요 버그 픽스중입니다.
+2-2. (Update) When you are transfer large size file. must change the vfs cache option to off.
+대용량 파일 전송시 VFS 캐시 옵션을 off로 전환하고 사용하세요!
 <br/>
 This software tested with synology webdav environments.<br/>
 다운로드는 우측 릴리즈 확인하세요<br/>
