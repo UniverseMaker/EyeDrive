@@ -10,6 +10,8 @@ WinFSP 미리 설치 부탁드립니다. 릴리즈에 올라와 있습니다.<br
 대용량 파일 전송하지 마세요 버그 픽스중입니다.<br/>
 3. (Update) When you are transfer large size file. must change the vfs cache option to off.<br/>
 대용량 파일 전송시 VFS 캐시 옵션을 off로 전환하고 사용하세요!<br/>
+4. (Update) If you need large size file transfer then must use eyedrive-ftps project<br/>
+대용량 파일 전송시 EyeDrive FTP를 사용하시는것을 추천합니다.<br/>
 <br/>
 This software tested with synology webdav environments.<br/>
 다운로드는 우측 릴리즈 확인하세요<br/>
