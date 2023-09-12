@@ -3,6 +3,9 @@ Webdav Software based on rclone project. This software provide webdav server mou
 시놀로지 또는 Webdav 로컬 드라이브 연결<br/>
 오픈소스, 프리웨어, 공개소프트웨어, 무료<br/>
 <br/>
+Webdav 사용시 Visual Studio, Android Studio, Latex, Visual Studio Code 등 개발, 업무작업이 잘 안되는 경우 본 소프트웨어를 사용하면 원활히 작업이 가능합니다.<br/>
+단! 대용량 파일 송수신에는 적합하지 않습니다. (대용량 송수신은 Raidrive 추천)<br/>
+<br/>
 # Requirements & Introduction
 1. WinFSP Install Required.<br/>
 WinFSP 미리 설치 부탁드립니다. 릴리즈에 올라와 있습니다.<br/>
