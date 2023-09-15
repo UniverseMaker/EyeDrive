@@ -20,11 +20,14 @@ This software tested with synology webdav environments.<br/>
 다운로드는 우측 릴리즈 확인하세요<br/>
 binary file is check the release board.<br/>
 <br/>
-![image](https://github.com/UniverseMaker/EyeDrive/assets/14816515/a70c7a72-cf11-4980-8772-4629ef6ce5c1)<br/>
+
+![image](https://github.com/UniverseMaker/EyeDrive/assets/14816515/a70c7a72-cf11-4980-8772-4629ef6ce5c1)
+<br/>
 Simple use. just input server, id, password<br/>
 초간단 사용 시놀로지 또는 webdav 주소, 아이디, 암호만 입력하면 됩니다.<br/>
 <br/>
-![image](https://github.com/UniverseMaker/EyeDrive/assets/14816515/160cc99b-56dd-42cc-b1fc-7c1aced3eeab)<br/>
+![image](https://github.com/UniverseMaker/EyeDrive/assets/14816515/160cc99b-56dd-42cc-b1fc-7c1aced3eeab)
+<br/>
 Webdav Server Mount as a local drive<br/>
 로컬드라이브로 인식합니다.<br/>
 <br/>
