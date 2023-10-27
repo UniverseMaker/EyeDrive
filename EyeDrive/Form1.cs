@@ -1,9 +1,10 @@
-ï»¿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,8 @@ namespace EyeDrive
         {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
+
+            LoadSave();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
@@ -28,21 +31,33 @@ namespace EyeDrive
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            if(txtServer.Text == "" || txtID.Text == "" || txtPW.Text == "")
+            if (txtServer.Text == "" || txtID.Text == "" || txtPW.Text == "")
             {
-                MessageBox.Show("ì„œë²„, ì•„ì´ë””, ì•”í˜¸ë¥¼ ìž…ë ¥í•´ì£¼ì„¸ìš”");
+                MessageBox.Show("Please Insert Server, ID, Password Informations.");
                 return;
             }
-            if(txtMount.Text == "" || txtMount.Text.IndexOf("\\") != -1)
+            if (txtMount.Text == "" || txtMount.Text.IndexOf("\\") != -1)
             {
-                MessageBox.Show("ë§ˆìš´íŠ¸ ì •ë³´ê°€ ìž˜ëª»ë˜ì—ˆìŠµë‹ˆë‹¤");
+                MessageBox.Show("Mount Prefix Name Information Wrong. (ex. Y:)");
                 return;
             }
-            if(th != null)
+            if ((new FileInfo("C:\\Program Files (x86)\\WinFsp\\bin\\launcher-x64.exe")).Exists == false)
             {
-                MessageBox.Show("ì—°ê²°ì„ ë¨¼ì € í•´ì œí•˜ì„¸ìš”");
+                MessageBox.Show("Please Install WinFSP Software!");
                 return;
             }
+            if (th != null)
+            {
+                MessageBox.Show("Connection Detected. Please Disconnect First.");
+                return;
+            }
+            try
+            {
+                if ((new DirectoryInfo(txtCache.Text)).Exists == false)
+                    txtCache.Text = "";
+            }
+            catch (Exception ex) { txtCache.Text = ""; }
+            AutoSave();
 
             lblStatus.Text = "Connecting...";
             Application.DoEvents();
@@ -50,7 +65,17 @@ namespace EyeDrive
             string pw = cmdExecute("rclone.exe obscure " + txtPW.Text);
             label2.Text = "ID && Password (" + pw + ")";
 
-            string opt = " :webdav:/ "+txtMount.Text+" --webdav-url="+txtServer.Text+ " --webdav-user="+txtID.Text+" --webdav-pass="+pw+" --vfs-cache-mode=full --webdav-vendor=other";
+            string vfscache = "full";
+            if (chkVfsCacheOff.Checked)
+                vfscache = "off";
+            else if (chkVfsCacheMinimal.Checked)
+                vfscache = "minimal";
+            else if (chkVfsCacheWrites.Checked)
+                vfscache = "writes";
+            else if (chkVfsCacheFull.Checked)
+                vfscache = "full";
+
+            string opt = " :webdav:/ " + txtMount.Text + " --webdav-url=" + txtServer.Text + " --webdav-user=" + txtID.Text + " --webdav-pass=" + pw + " --vfs-cache-mode=" + vfscache + " --webdav-vendor=other";
             if (txtCache.Text != "")
                 opt += " --cache-dir=" + txtCache.Text;
             if (chkDebug.Checked)
@@ -63,6 +88,7 @@ namespace EyeDrive
             timer.Enabled = true;
 
             lblStatus.Text = "Connected.";
+
             Application.DoEvents();
         }
 
@@ -97,13 +123,13 @@ namespace EyeDrive
             cmd.FileName = @"cmd";
             if (hide == true)
             {
-                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmdì°½ì´ ìˆ¨ê²¨ì§€ë„ë¡ í•˜ê¸°
-                cmd.CreateNoWindow = true;                               // cmdì°½ì„ ë„ìš°ì§€ ì•ˆë„ë¡ í•˜ê¸°
+                cmd.WindowStyle = ProcessWindowStyle.Hidden;             // cmdÃ¢ÀÌ ¼û°ÜÁöµµ·Ï ÇÏ±â
+                cmd.CreateNoWindow = true;                               // cmdÃ¢À» ¶ç¿ìÁö ¾Èµµ·Ï ÇÏ±â
             }
             else
             {
-                cmd.WindowStyle = ProcessWindowStyle.Normal;             // cmdì°½ì´ ìˆ¨ê²¨ì§€ë„ë¡ í•˜ê¸°
-                cmd.CreateNoWindow = false;                               // cmdì°½ì„ ë„ìš°ì§€ ì•ˆë„ë¡ í•˜ê¸°
+                cmd.WindowStyle = ProcessWindowStyle.Normal;             // cmdÃ¢ÀÌ ¼û°ÜÁöµµ·Ï ÇÏ±â
+                cmd.CreateNoWindow = false;                               // cmdÃ¢À» ¶ç¿ìÁö ¾Èµµ·Ï ÇÏ±â
             }
 
             cmd.UseShellExecute = false;
@@ -149,13 +175,13 @@ namespace EyeDrive
             cmd_con.FileName = @"cmd";
             if (hide == true)
             {
-                cmd_con.WindowStyle = ProcessWindowStyle.Hidden;             // cmdì°½ì´ ìˆ¨ê²¨ì§€ë„ë¡ í•˜ê¸°
-                cmd_con.CreateNoWindow = true;                               // cmdì°½ì„ ë„ìš°ì§€ ì•ˆë„ë¡ í•˜ê¸°
+                cmd_con.WindowStyle = ProcessWindowStyle.Hidden;             // cmdÃ¢ÀÌ ¼û°ÜÁöµµ·Ï ÇÏ±â
+                cmd_con.CreateNoWindow = true;                               // cmdÃ¢À» ¶ç¿ìÁö ¾Èµµ·Ï ÇÏ±â
             }
             else
             {
-                cmd_con.WindowStyle = ProcessWindowStyle.Normal;             // cmdì°½ì´ ìˆ¨ê²¨ì§€ë„ë¡ í•˜ê¸°
-                cmd_con.CreateNoWindow = false;                               // cmdì°½ì„ ë„ìš°ì§€ ì•ˆë„ë¡ í•˜ê¸°
+                cmd_con.WindowStyle = ProcessWindowStyle.Normal;             // cmdÃ¢ÀÌ ¼û°ÜÁöµµ·Ï ÇÏ±â
+                cmd_con.CreateNoWindow = false;                               // cmdÃ¢À» ¶ç¿ìÁö ¾Èµµ·Ï ÇÏ±â
             }
 
             cmd_con.UseShellExecute = false;
@@ -182,37 +208,198 @@ namespace EyeDrive
 
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
-            lblStatus.Text = "Disconnecting...";
-            Application.DoEvents();
-
-            process_con.StandardInput.Close();
-
-            int kcc = 0;
-            Process[] pname = Process.GetProcessesByName("rclone");
-            while (pname.Length > 0)
+            try
             {
-                kcc++;
-                process_con.StandardInput.Close();
-                pname = Process.GetProcessesByName("rclone");
-                System.Threading.Thread.Sleep(0);
+                lblStatus.Text = "Disconnecting...";
+                Application.DoEvents();
 
-                if (kcc > 50)
+                try
                 {
-                    foreach (Process p in pname)
-                    {
-                        p.Kill();
-                        System.Threading.Thread.Sleep(0);
-                    }
+                    process_con.StandardInput.Close();
+                }
+                catch { }
 
-                    break;
+                int kcc = 0;
+                Process[] pname = Process.GetProcessesByName("rclone");
+                while (pname.Length > 0)
+                {
+                    kcc++;
+                    try
+                    {
+                        process_con.StandardInput.Close();
+                    }
+                    catch { }
+                    pname = Process.GetProcessesByName("rclone");
+                    System.Threading.Thread.Sleep(0);
+
+                    if (kcc > 50)
+                    {
+                        foreach (Process p in pname)
+                        {
+                            p.Kill();
+                            System.Threading.Thread.Sleep(0);
+                        }
+
+                        break;
+                    }
+                }
+
+                cmd_con = null;
+                process_con = null;
+
+                lblStatus.Text = "Disconnected.";
+                Application.DoEvents();
+            }
+            catch
+            {
+                lblStatus.Text = "Err.";
+                Application.DoEvents();
+            }
+        }
+
+        private void chkVfsCacheOff_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkVfsCacheOff.Checked)
+            {
+                chkVfsCacheFull.Checked = false;
+                chkVfsCacheMinimal.Checked = false;
+                chkVfsCacheWrites.Checked = false;
+            }
+        }
+
+        private void chkVfsCacheMinimal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkVfsCacheMinimal.Checked)
+            {
+                chkVfsCacheFull.Checked = false;
+                chkVfsCacheOff.Checked = false;
+                chkVfsCacheWrites.Checked = false;
+            }
+        }
+
+        private void chkVfsCacheWrites_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkVfsCacheWrites.Checked)
+            {
+                chkVfsCacheFull.Checked = false;
+                chkVfsCacheMinimal.Checked = false;
+                chkVfsCacheOff.Checked = false;
+            }
+        }
+
+        private void chkVfsCacheFull_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkVfsCacheFull.Checked)
+            {
+                chkVfsCacheOff.Checked = false;
+                chkVfsCacheMinimal.Checked = false;
+                chkVfsCacheWrites.Checked = false;
+            }
+        }
+
+        private void btnForcedDisconnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                lblStatus.Text = "Disconnecting...";
+                Application.DoEvents();
+
+                int kcc = 0;
+                Process[] pname = Process.GetProcessesByName("rclone");
+                while (pname.Length > 0)
+                {
+                    kcc++;
+                    pname = Process.GetProcessesByName("rclone");
+                    System.Threading.Thread.Sleep(0);
+
+                    if (kcc > 50)
+                    {
+                        foreach (Process p in pname)
+                        {
+                            p.Kill();
+                            System.Threading.Thread.Sleep(0);
+                        }
+
+                        break;
+                    }
+                }
+
+                cmd_con = null;
+                process_con = null;
+
+                lblStatus.Text = "Disconnected.";
+                Application.DoEvents();
+            }
+            catch (Exception ex)
+            {
+                lblStatus.Text = "Err.";
+                Application.DoEvents();
+            }
+        }
+
+        public void AutoSave()
+        {
+            if (chkAutoSave.Checked)
+            {
+                string data = "";
+                data += "Server/_/" + txtServer.Text + "\r\n";
+                data += "ID/_/" + txtID.Text + "\r\n";
+                data += "Password/_/" + txtPW.Text + "\r\n";
+                data += "MountLoc/_/" + txtMount.Text + "\r\n";
+                data += "CacheLoc/_/" + txtCache.Text + "\r\n";
+
+                data += "AutoSave/_/" + chkAutoSave.Checked.ToString() + "\r\n";
+                data += "Debug/_/" + chkDebug.Checked.ToString() + "\r\n";
+                data += "WinRW/_/" + chkWindowsRW.Checked.ToString() + "\r\n";
+                data += "HideCMD/_/" + chkCMDHide.Checked.ToString() + "\r\n";
+
+                data += "VFS-Off/_/" + chkVfsCacheOff.Checked.ToString() + "\r\n";
+                data += "VFS-Minimal/_/" + chkVfsCacheMinimal.Checked.ToString() + "\r\n";
+                data += "VFS-Writes/_/" + chkVfsCacheWrites.Checked.ToString() + "\r\n";
+                data += "VFS-Full/_/" + chkVfsCacheFull.Checked.ToString() + "\r\n";
+
+                using (StreamWriter outputFile = new StreamWriter(Application.StartupPath + "\\config.cfg", false))
+                {
+                    outputFile.Write(data);
                 }
             }
+        }
 
-            cmd_con = null;
-            process_con = null;
+        public void LoadSave()
+        {
+            try
+            {
+                Dictionary<string, string> configs = new Dictionary<string, string>();
+                string data = File.ReadAllText(Application.StartupPath + "\\config.cfg");
+                string[] datasplit = System.Text.RegularExpressions.Regex.Split(data, "\r\n");
+                for (int i = 0; i < datasplit.Length; i++)
+                {
+                    try
+                    {
+                        string[] split2 = System.Text.RegularExpressions.Regex.Split(datasplit[i], "/_/");
+                        configs.Add(split2[0], split2[1]);
+                    }
+                    catch (Exception ex) { }
+                }
 
-            lblStatus.Text = "Disconnected.";
-            Application.DoEvents();
+                txtServer.Text = configs["Server"];
+                txtID.Text = configs["ID"];
+                txtPW.Text = configs["Password"];
+                txtMount.Text = configs["MountLoc"];
+                txtCache.Text = configs["CacheLoc"];
+                chkAutoSave.Checked = Convert.ToBoolean(configs["AutoSave"]);
+                chkDebug.Checked = Convert.ToBoolean(configs["Debug"]);
+                chkWindowsRW.Checked = Convert.ToBoolean(configs["WinRW"]);
+                chkCMDHide.Checked = Convert.ToBoolean(configs["HideCMD"]);
+                chkVfsCacheOff.Checked = Convert.ToBoolean(configs["VFS-Off"]);
+                chkVfsCacheMinimal.Checked = Convert.ToBoolean(configs["VFS-Minimal"]);
+                chkVfsCacheWrites.Checked = Convert.ToBoolean(configs["VFS-Writes"]);
+                chkVfsCacheFull.Checked = Convert.ToBoolean(configs["VFS-Full"]);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

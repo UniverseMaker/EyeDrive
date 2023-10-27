@@ -34,7 +34,15 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.btnConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDisconnect = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnForcedDisconnect = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkVfsCacheOff = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkVfsCacheMinimal = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkVfsCacheWrites = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkVfsCacheFull = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblStatus2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.txtID = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtPW = new System.Windows.Forms.TextBox();
@@ -46,8 +54,8 @@
             this.txtMount = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
-            this.lblStatus2 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.timerAutosave = new System.Windows.Forms.Timer(this.components);
+            this.chkAutoSave = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -75,26 +83,81 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnConnect,
-            this.btnDisconnect});
+            this.btnDisconnect,
+            this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(393, 33);
+            this.menuStrip1.Size = new System.Drawing.Size(393, 36);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // btnConnect
             // 
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(95, 29);
+            this.btnConnect.Size = new System.Drawing.Size(95, 32);
             this.btnConnect.Text = "Connect";
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
             // btnDisconnect
             // 
+            this.btnDisconnect.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnForcedDisconnect});
             this.btnDisconnect.Name = "btnDisconnect";
-            this.btnDisconnect.Size = new System.Drawing.Size(118, 29);
+            this.btnDisconnect.Size = new System.Drawing.Size(118, 32);
             this.btnDisconnect.Text = "Disconnect";
             this.btnDisconnect.Click += new System.EventHandler(this.btnDisconnect_Click);
+            // 
+            // btnForcedDisconnect
+            // 
+            this.btnForcedDisconnect.Name = "btnForcedDisconnect";
+            this.btnForcedDisconnect.Size = new System.Drawing.Size(266, 34);
+            this.btnForcedDisconnect.Text = "Forced Disconnect";
+            this.btnForcedDisconnect.Click += new System.EventHandler(this.btnForcedDisconnect_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.chkVfsCacheOff,
+            this.chkVfsCacheMinimal,
+            this.chkVfsCacheWrites,
+            this.chkVfsCacheFull});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(92, 32);
+            this.toolStripMenuItem1.Text = "Options";
+            // 
+            // chkVfsCacheOff
+            // 
+            this.chkVfsCacheOff.CheckOnClick = true;
+            this.chkVfsCacheOff.Name = "chkVfsCacheOff";
+            this.chkVfsCacheOff.Size = new System.Drawing.Size(273, 34);
+            this.chkVfsCacheOff.Text = "VFS Cache: Off";
+            this.chkVfsCacheOff.CheckedChanged += new System.EventHandler(this.chkVfsCacheOff_CheckedChanged);
+            // 
+            // chkVfsCacheMinimal
+            // 
+            this.chkVfsCacheMinimal.CheckOnClick = true;
+            this.chkVfsCacheMinimal.Name = "chkVfsCacheMinimal";
+            this.chkVfsCacheMinimal.Size = new System.Drawing.Size(273, 34);
+            this.chkVfsCacheMinimal.Text = "VFS Cache: Minimal";
+            this.chkVfsCacheMinimal.CheckedChanged += new System.EventHandler(this.chkVfsCacheMinimal_CheckedChanged);
+            // 
+            // chkVfsCacheWrites
+            // 
+            this.chkVfsCacheWrites.CheckOnClick = true;
+            this.chkVfsCacheWrites.Name = "chkVfsCacheWrites";
+            this.chkVfsCacheWrites.Size = new System.Drawing.Size(273, 34);
+            this.chkVfsCacheWrites.Text = "VFS Cache: Writes";
+            this.chkVfsCacheWrites.CheckedChanged += new System.EventHandler(this.chkVfsCacheWrites_CheckedChanged);
+            // 
+            // chkVfsCacheFull
+            // 
+            this.chkVfsCacheFull.Checked = true;
+            this.chkVfsCacheFull.CheckOnClick = true;
+            this.chkVfsCacheFull.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkVfsCacheFull.Name = "chkVfsCacheFull";
+            this.chkVfsCacheFull.Size = new System.Drawing.Size(273, 34);
+            this.chkVfsCacheFull.Text = "VFS Cache: Full";
+            this.chkVfsCacheFull.CheckedChanged += new System.EventHandler(this.chkVfsCacheFull_CheckedChanged);
             // 
             // statusStrip1
             // 
@@ -102,11 +165,23 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus,
             this.lblStatus2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 231);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 267);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(393, 32);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(179, 25);
+            this.lblStatus.Text = "Wait for Connection.";
+            // 
+            // lblStatus2
+            // 
+            this.lblStatus2.Name = "lblStatus2";
+            this.lblStatus2.Size = new System.Drawing.Size(166, 25);
+            this.lblStatus2.Text = "| P-Watcher Ready.";
             // 
             // txtID
             // 
@@ -206,23 +281,28 @@
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
-            // lblStatus
+            // timerAutosave
             // 
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(179, 25);
-            this.lblStatus.Text = "Wait for Connection.";
+            this.timerAutosave.Interval = 3000;
             // 
-            // lblStatus2
+            // chkAutoSave
             // 
-            this.lblStatus2.Name = "lblStatus2";
-            this.lblStatus2.Size = new System.Drawing.Size(166, 25);
-            this.lblStatus2.Text = "| P-Watcher Ready.";
+            this.chkAutoSave.AutoSize = true;
+            this.chkAutoSave.Checked = true;
+            this.chkAutoSave.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAutoSave.Location = new System.Drawing.Point(15, 236);
+            this.chkAutoSave.Name = "chkAutoSave";
+            this.chkAutoSave.Size = new System.Drawing.Size(385, 22);
+            this.chkAutoSave.TabIndex = 14;
+            this.chkAutoSave.Text = "AutoSave (Save Info When Press Connect)";
+            this.chkAutoSave.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 263);
+            this.ClientSize = new System.Drawing.Size(393, 299);
+            this.Controls.Add(this.chkAutoSave);
             this.Controls.Add(this.txtMount);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.chkCMDHide);
@@ -273,6 +353,14 @@
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem chkVfsCacheOff;
+        private System.Windows.Forms.ToolStripMenuItem chkVfsCacheMinimal;
+        private System.Windows.Forms.ToolStripMenuItem chkVfsCacheWrites;
+        private System.Windows.Forms.ToolStripMenuItem chkVfsCacheFull;
+        private System.Windows.Forms.ToolStripMenuItem btnForcedDisconnect;
+        private System.Windows.Forms.Timer timerAutosave;
+        private System.Windows.Forms.CheckBox chkAutoSave;
     }
 }
 
