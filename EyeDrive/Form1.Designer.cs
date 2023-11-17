@@ -56,6 +56,9 @@
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.timerAutosave = new System.Windows.Forms.Timer(this.components);
             this.chkAutoSave = new System.Windows.Forms.CheckBox();
+            this.txtResult = new System.Windows.Forms.TextBox();
+            this.chkDirectShowDebug = new System.Windows.Forms.CheckBox();
+            this.chkCMDRun = new System.Windows.Forms.CheckBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -87,7 +90,7 @@
             this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(393, 36);
+            this.menuStrip1.Size = new System.Drawing.Size(393, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -165,7 +168,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatus,
             this.lblStatus2});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 267);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 329);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(393, 32);
             this.statusStrip1.TabIndex = 3;
@@ -288,8 +291,6 @@
             // chkAutoSave
             // 
             this.chkAutoSave.AutoSize = true;
-            this.chkAutoSave.Checked = true;
-            this.chkAutoSave.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAutoSave.Location = new System.Drawing.Point(15, 236);
             this.chkAutoSave.Name = "chkAutoSave";
             this.chkAutoSave.Size = new System.Drawing.Size(385, 22);
@@ -297,11 +298,45 @@
             this.chkAutoSave.Text = "AutoSave (Save Info When Press Connect)";
             this.chkAutoSave.UseVisualStyleBackColor = true;
             // 
+            // txtResult
+            // 
+            this.txtResult.Location = new System.Drawing.Point(15, 264);
+            this.txtResult.Name = "txtResult";
+            this.txtResult.Size = new System.Drawing.Size(366, 28);
+            this.txtResult.TabIndex = 15;
+            // 
+            // chkDirectShowDebug
+            // 
+            this.chkDirectShowDebug.AutoSize = true;
+            this.chkDirectShowDebug.Checked = true;
+            this.chkDirectShowDebug.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkDirectShowDebug.Location = new System.Drawing.Point(15, 298);
+            this.chkDirectShowDebug.Name = "chkDirectShowDebug";
+            this.chkDirectShowDebug.Size = new System.Drawing.Size(119, 22);
+            this.chkDirectShowDebug.TabIndex = 16;
+            this.chkDirectShowDebug.Text = "D.S.Debug";
+            this.chkDirectShowDebug.UseVisualStyleBackColor = true;
+            // 
+            // chkCMDRun
+            // 
+            this.chkCMDRun.AutoSize = true;
+            this.chkCMDRun.Checked = true;
+            this.chkCMDRun.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkCMDRun.Location = new System.Drawing.Point(148, 298);
+            this.chkCMDRun.Name = "chkCMDRun";
+            this.chkCMDRun.Size = new System.Drawing.Size(161, 22);
+            this.chkCMDRun.TabIndex = 17;
+            this.chkCMDRun.Text = "CMD Run Mode";
+            this.chkCMDRun.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 299);
+            this.ClientSize = new System.Drawing.Size(393, 361);
+            this.Controls.Add(this.chkCMDRun);
+            this.Controls.Add(this.chkDirectShowDebug);
+            this.Controls.Add(this.txtResult);
             this.Controls.Add(this.chkAutoSave);
             this.Controls.Add(this.txtMount);
             this.Controls.Add(this.label4);
@@ -361,6 +396,9 @@
         private System.Windows.Forms.ToolStripMenuItem btnForcedDisconnect;
         private System.Windows.Forms.Timer timerAutosave;
         private System.Windows.Forms.CheckBox chkAutoSave;
+        private System.Windows.Forms.TextBox txtResult;
+        private System.Windows.Forms.CheckBox chkDirectShowDebug;
+        private System.Windows.Forms.CheckBox chkCMDRun;
     }
 }
 

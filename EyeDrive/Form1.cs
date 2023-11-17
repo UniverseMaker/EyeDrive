@@ -29,6 +29,22 @@ namespace EyeDrive
             System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
+        /*
+         * rclone mount remote: /mnt/user/mount_rclone/remote \
+                                   --log-level DEBUG \
+                                   --log-file /mnt/user/rclone/logs/remote/"${now}".txt \
+                                   --allow-other \
+                                   --no-modtime \
+                                   --buffer-size 32M \
+                                   --transfers 8 \ // the documentation says this only affects writes but I leave at that.
+                                   --vfs-read-chunk-size 0 \
+                                   --no-checksum \
+                                   --vfs-read-ahead 10G \ // enough to read most content while watching on a gigabit internet.
+                                   --vfs-cache-mode full \
+                                   --vfs-cache-max-age 24h \
+                                   --vfs-cache-max-size 30G \
+                                   --cache-dir /mnt/user/rclone_cache/remote/ // this is the ssd cache drive
+         */
         private void btnConnect_Click(object sender, EventArgs e)
         {
             if (txtServer.Text == "" || txtID.Text == "" || txtPW.Text == "")
@@ -75,16 +91,22 @@ namespace EyeDrive
             else if (chkVfsCacheFull.Checked)
                 vfscache = "full";
 
-            string opt = " :webdav:/ " + txtMount.Text + " --webdav-url=" + txtServer.Text + " --webdav-user=" + txtID.Text + " --webdav-pass=" + pw + " --vfs-cache-mode=" + vfscache + " --webdav-vendor=other";
+            string opt = " :webdav:/ " + txtMount.Text + " --webdav-url=" + txtServer.Text + " --webdav-user=" + txtID.Text + " --webdav-pass=" + pw + " --vfs-cache-mode=" + vfscache + " --webdav-vendor=other --vfs-cache-max-age=1h --vfs-cache-max-size=30G --vfs-read-ahead=10G --vfs-read-chunk-size=32M --dir-cache-time=30m --buffer-size=512M --poll-interval=15m --transfers=1 --no-modtime --no-checksum --low-level-retries=5 --retries=3";
             if (txtCache.Text != "")
                 opt += " --cache-dir=" + txtCache.Text;
             if (chkDebug.Checked)
                 opt += " --log-file log.txt --log-level=DEBUG";
+            if (chkDirectShowDebug.Checked)
+                opt += " -vv";
             if (chkWindowsRW.Checked)
                 opt += " -o FileSecurity=\"D:P(A;;FA;;;WD)\"";
 
             //th = new System.Threading.Thread(() => connectWebDav(opt, chkCMDHide.Checked));
-            connectWebDav(opt, chkCMDHide.Checked);
+            txtResult.Text = "rclone.exe mount" + opt;
+            if (!chkCMDRun.Checked)
+                connectWebDav(opt, chkCMDHide.Checked);
+            else
+                System.Diagnostics.Process.Start("CMD.exe", "/C " + Application.StartupPath + "\\rclone.exe mount" + opt);
             timer.Enabled = true;
 
             lblStatus.Text = "Connected.";
