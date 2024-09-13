@@ -35,7 +35,4 @@ Webdav Server Mount as a local drive<br/>
 rclone과 exe파일을 같은곳에 위치시키기만 하면 됩니다.<br/>
 <br/>
 모두 무료, 소스 공개 = 잘 사용하세요..<br/>
-Use it well.<br/>
-Daeseung Park (Research Engineer)<br/>
-Convergence Research Center for College of Engineering<br/>
-Korea Advanced Institute of Science and Technology<br/>
+License free. Use it well.<br/>
